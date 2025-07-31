@@ -161,8 +161,8 @@ class SMTP(Provider):
             )
 
     def _connect_to_server(self, data: dict):
-        self.smtp_server = smtplib.SMTP_SSL if data["ssl"] else smtplib.SMTP
-        self.smtp_server = self.smtp_server(data["host"], data["port"])
+        smtp_server_cls = smtplib.SMTP_SSL if data["ssl"] else smtplib.SMTP
+        self.smtp_server = smtp_server_cls(data["host"], data["port"])
         self.configuration = self._get_configuration(data)
         if data["tls"] and not data["ssl"]:
             self.smtp_server.ehlo()
